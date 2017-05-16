@@ -333,8 +333,12 @@
     
     UIView *containerView = [transitionContext containerView];
     self.containerView = containerView;
+    // 恢复之前的所有状态
     self.fromView.frame = CGRectMake(0, 0, containerView.width, containerView.height);
     self.toView.frame = CGRectMake(0, 0, containerView.width, containerView.height);
+    self.fromView.alpha = 1.0;
+    self.toView.alpha = 1.0;
+    
     [containerView addSubview:self.toView];
     
     [self transiton:self.customType];
