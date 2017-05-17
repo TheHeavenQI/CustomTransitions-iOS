@@ -21,38 +21,30 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self navbar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.delegate = self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.navigationController.delegate == self) {
+        self.navigationController.delegate = nil;
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor orangeColor];
-    self.navigationController.delegate = self;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.view addGestureRecognizer:gestureRecognizer];
 }
 
 #pragma mark - private methods
-
-- (void)navbar {
-    
-    if (self.navigationController.navigationBarHidden) {
-        return;
-    }
-    
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.backgroundColor = [UIColor clearColor];
-    button.frame = CGRectMake(0, 0, 60, 30);
-    [button setTitle:@"返回" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(backButtonEvent) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [self.navigationItem setLeftBarButtonItem:left];
-}
-
 
 #pragma mark - gesture
 
@@ -101,7 +93,7 @@
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 //为这个动画添加用户交互
